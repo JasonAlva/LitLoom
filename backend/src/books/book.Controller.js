@@ -16,10 +16,10 @@ const getAllBooks = async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
 
-    res.status(200).json({ message: "books fetched successfully", books });
+    res.status(200).send(books);
   } catch (error) {
     console.error("Error while fetching all boook", error);
-    res.status(500).json({ message: "Failed to fetch all book", error });
+    res.status(500).send({ message: "Failed to fetch all book", error });
   }
 };
 
@@ -30,13 +30,13 @@ const getABook = async (req, res) => {
     const { id } = req.params;
     const book = await Book.findById(id);
     if (!book) {
-      res.status(404).json({ message: "book doesnt exist" });
+      res.status(404).send({ message: "book doesnt exist" });
     }
 
-    res.status(200).json(book);
+    res.status(200).send(book);
   } catch (error) {
     console.error("Error while fetching the book", error);
-    res.status(500).json({ message: "Failed to fetch the book", error });
+    res.status(500).send({ message: "Failed to fetch the book", error });
   }
 };
 
@@ -47,15 +47,15 @@ const updateBook = async (req, res) => {
       new: true,
     });
     if (!bookUpdate) {
-      res.status(404).json({ message: "book not found" });
+      res.status(404).send({ message: "book not found" });
     }
 
     res
       .status(200)
-      .json({ message: "book updated successfully", book: bookUpdate });
+      .send({ message: "book updated successfully", book: bookUpdate });
   } catch (error) {
     console.error("Error while updating the book", error);
-    res.status(500).json({ message: "Failed to update the book", error });
+    res.status(500).send({ message: "Failed to update the book", error });
   }
 };
 
@@ -64,15 +64,15 @@ const deleteABook = async (req, res) => {
     const { id } = req.params;
     const deletedBook = await Book.findByIdAndDelete(id);
     if (!deletedBook) {
-      res.status(404).json({ message: "book not found" });
+      res.status(404).send({ message: "book not found" });
     }
 
     res
       .status(200)
-      .json({ message: "book deleted successfully", book: deletedBook });
+      .send({ message: "book deleted successfully", book: deletedBook });
   } catch (error) {
     console.error("Error while deleting the book", error);
-    res.status(500).json({ message: "Failed to delete the book", error });
+    res.status(500).send({ message: "Failed to delete the book", error });
   }
 };
 
