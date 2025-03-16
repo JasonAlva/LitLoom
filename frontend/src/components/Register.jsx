@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const [message, setMessage] = useState(" ");
+  const { registerUser } = useAuth();
 
   const {
     register,
@@ -13,7 +15,15 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      await registerUser(data.email, data.password);
+    } catch (error) {
+      setMessage("Please provide a valid email addresss");
+    }
+  };
+
   const handleGoogleSignIn = () => {};
   return (
     <div className=" h-[calc(100vh-120px)] flex items-center justify-center">
@@ -57,7 +67,7 @@ const Register = () => {
           )}
           <div>
             <button className=" bg-blue-500 hover:bg-blue-700 focus:outline-none  px-8 py-2 rounded text-white">
-              Login
+              Register
             </button>
           </div>
         </form>
