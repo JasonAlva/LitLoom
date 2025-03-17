@@ -5,6 +5,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Avatar from "../assets/avatar.png";
 import { useSelector } from "react-redux";
+import { useAuth } from "../context/AuthContext";
 
 const navigation = [
   { name: "Dashboard", href: "/user-dashboard" },
@@ -14,9 +15,12 @@ const navigation = [
 ];
 
 const NavBar = () => {
-  const currentUser = false;
+  const { currentUser, logOutUser } = useAuth();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const handleLogout = () => {
+    logOutUser();
+  };
 
   console.log(cartItems);
   return (
@@ -68,6 +72,14 @@ const NavBar = () => {
                           </Link>
                         </li>
                       ))}
+                      <li>
+                        <button
+                          className=" px-4 py-2 text-sm block hover:bg-gray-100 w-full text-left"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </button>
+                      </li>
                     </ul>
                   </div>
                 )}
